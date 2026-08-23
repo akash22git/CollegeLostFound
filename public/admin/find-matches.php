@@ -4,6 +4,7 @@ session_start();
 
 require_once __DIR__ . '/../../app/auth.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../app/navigation.php';
 
 requireAdmin();
 
@@ -78,6 +79,8 @@ $matches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <title>Possible Matches</title>
@@ -85,6 +88,8 @@ $matches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 

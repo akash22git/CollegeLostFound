@@ -1,13 +1,65 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/navigation.php';
 
 $search = trim($_GET['search'] ?? '');
 $type = trim($_GET['type'] ?? '');
 $category = trim($_GET['category'] ?? '');
 $location = trim($_GET['location'] ?? '');
 
-$sql = '
+$where = ['status = ?'];
+$params = ['active'];
+
+if ($search !== '') {
+
+    $where[] = '(
+            item_name LIKE ?
+            OR description LIKE ?
+            OR location LIKE ?
+        )';
+
+    $searchValue = '%' . $search . '%';
+
+    $params[] = $searchValue;
+    $params[] = $searchValue;
+    $params[] = $searchValue;
+}
+
+if ($type !== '' && in_array($type, ['lost', 'found'], true)) {
+
+    $where[] = 'type = ?';
+
+    $params[] = $type;
+}
+
+if ($category !== '') {
+
+    $where[] = 'category = ?';
+
+    $params[] = $category;
+}
+
+if ($location !== '') {
+
+    $where[] = 'location LIKE ?';
+
+    $params[] = '%' . $location . '%';
+}
+
+$whereSql = implode(' AND ', $where);
+
+$countStmt = $pdo->prepare("SELECT COUNT(*) FROM items WHERE {$whereSql}");
+$countStmt->execute($params);
+$totalItems = (int) $countStmt->fetchColumn();
+
+$itemsPerPage = 10;
+$totalPages = max(1, (int) ceil($totalItems / $itemsPerPage));
+$page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT) ?: 1;
+$page = max(1, min($page, $totalPages));
+$offset = ($page - 1) * $itemsPerPage;
+
+$sql = "
     SELECT
         id,
         type,
@@ -20,50 +72,10 @@ $sql = '
         status,
         created_at
     FROM items
-    WHERE status = ?
-';
-
-$params = ['active'];
-
-if ($search !== '') {
-
-    $sql .= '
-        AND (
-            item_name LIKE ?
-            OR description LIKE ?
-            OR location LIKE ?
-        )
-    ';
-
-    $searchValue = '%' . $search . '%';
-
-    $params[] = $searchValue;
-    $params[] = $searchValue;
-    $params[] = $searchValue;
-}
-
-if ($type !== '' && in_array($type, ['lost', 'found'], true)) {
-
-    $sql .= ' AND type = ?';
-
-    $params[] = $type;
-}
-
-if ($category !== '') {
-
-    $sql .= ' AND category = ?';
-
-    $params[] = $category;
-}
-
-if ($location !== '') {
-
-    $sql .= ' AND location LIKE ?';
-
-    $params[] = '%' . $location . '%';
-}
-
-$sql .= ' ORDER BY created_at DESC';
+    WHERE {$whereSql}
+    ORDER BY created_at DESC
+    LIMIT {$itemsPerPage} OFFSET {$offset}
+";
 
 $stmt = $pdo->prepare($sql);
 
@@ -78,6 +90,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -90,6 +104,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -236,7 +252,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </form>
 
 <p>
-    <?= count($items) ?> item(s) found.
+    <?= $totalItems ?> item(s) found.
 </p>    
 
 <hr>
@@ -322,6 +338,45 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <?php endforeach; ?>
 
+
+    <?php endif; ?>
+
+    <?php if ($totalItems > $itemsPerPage): ?>
+
+        <?php
+        $paginationParams = array_filter([
+            'search' => $search,
+            'type' => $type,
+            'category' => $category,
+            'location' => $location,
+        ], static fn ($value) => $value !== '');
+        ?>
+
+        <nav aria-label="Report pagination">
+            <p>Page <?= $page ?> of <?= $totalPages ?></p>
+
+            <?php if ($page > 1): ?>
+                <a href="/items.php?<?= htmlspecialchars(http_build_query(array_merge($paginationParams, ['page' => $page - 1]))) ?>">
+                    Previous
+                </a>
+            <?php endif; ?>
+
+            <?php for ($pageNumber = 1; $pageNumber <= $totalPages; $pageNumber++): ?>
+                <?php if ($pageNumber === $page): ?>
+                    <strong><?= $pageNumber ?></strong>
+                <?php else: ?>
+                    <a href="/items.php?<?= htmlspecialchars(http_build_query(array_merge($paginationParams, ['page' => $pageNumber]))) ?>">
+                        <?= $pageNumber ?>
+                    </a>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="/items.php?<?= htmlspecialchars(http_build_query(array_merge($paginationParams, ['page' => $page + 1]))) ?>">
+                    Next
+                </a>
+            <?php endif; ?>
+        </nav>
 
     <?php endif; ?>
 

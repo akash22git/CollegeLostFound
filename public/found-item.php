@@ -4,6 +4,8 @@ session_start();
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/auth.php';
+require_once __DIR__ . '/../app/navigation.php';
+require_once __DIR__ . '/../app/validation.php';
 
 requireLogin();
 
@@ -27,6 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ) {
 
         $message = 'Please fill in all required fields.';
+
+    } elseif (!isValidReportDate($itemDate)) {
+
+        $message = 'Please enter a valid date that is today or earlier.';
 
     } else {
         if (
@@ -87,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }  
 
+        if ($message === '') {
         $stmt = $pdo->prepare(
     'INSERT INTO items
     (user_id, type, item_name, category, description, location, item_date, image)
@@ -105,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         $message = 'Found item reported successfully!';
+        }
     }
 }
 
@@ -114,6 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
+
+    <?php renderPageAssets(); ?>
 
     <meta charset="UTF-8">
 
@@ -127,6 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -245,6 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type="date"
             id="item_date"
             name="item_date"
+            max="<?= date('Y-m-d') ?>"
             required
         >
 
@@ -269,6 +282,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </button>
 
     </form>
+
+    <p><a href="/my-reports.php">View My Reports</a></p>
 
 </body>
 

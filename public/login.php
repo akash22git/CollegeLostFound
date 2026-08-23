@@ -3,8 +3,13 @@
 session_start();
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/navigation.php';
 
 $message = '';
+
+if (($_GET['reset'] ?? '') === 'success') {
+    $message = 'Your password has been reset. Please log in.';
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -63,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -75,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -123,6 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </button>
 
     </form>
+
+    <p>
+        <a href="/forgot-password.php">Forgot Password?</a>
+    </p>
+
+    <p>
+        <a href="/register.php">Create an account</a>
+    </p>
 
 </body>
 

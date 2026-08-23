@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/navigation.php';
 
 $itemId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
@@ -11,18 +12,22 @@ if (!$itemId || $itemId < 1) {
 
 $stmt = $pdo->prepare(
     'SELECT
-        id,
-        type,
-        item_name,
-        category,
-        description,
-        location,
-        item_date,
-        image,
-        status,
-        created_at
+        items.id,
+        items.type,
+        items.item_name,
+        items.category,
+        items.description,
+        items.location,
+        items.item_date,
+        items.image,
+        items.status,
+        items.created_at,
+        users.name AS reporter_name,
+        users.phone AS reporter_phone
      FROM items
-     WHERE id = ?
+     INNER JOIN users
+        ON items.user_id = users.id
+     WHERE items.id = ?
      LIMIT 1'
 );
 
@@ -42,6 +47,8 @@ if (!$item) {
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -57,6 +64,8 @@ if (!$item) {
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -106,9 +115,22 @@ if (!$item) {
         <?= htmlspecialchars($item['status']) ?>
     </p>
 
+    <?php if ($item['status'] === 'active' && !empty($item['reporter_phone'])): ?>
+
+        <h3>Contact Reporter</h3>
+
+        <p>
+            If you have found or want to claim this item, contact
+            <?= htmlspecialchars($item['reporter_name']) ?>:
+            <a href="tel:<?= htmlspecialchars($item['reporter_phone']) ?>">
+                <?= htmlspecialchars($item['reporter_phone']) ?>
+            </a>
+        </p>
+
+    <?php endif; ?>
+
 
     <?php if (!empty($item['description'])): ?>
-
         <h3>Description</h3>
 
         <p>

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/navigation.php';
 
 $message = '';
 
@@ -13,13 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = $_POST['confirm_password'] ?? '';
 
     // Check required fields
-    if ($name === '' || $email === '' || $password === '') {
+    if ($name === '' || $email === '' || $phone === '' || $password === '') {
         $message = 'Please fill in all required fields.';
     }
 
     // Check email format
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = 'Please enter a valid email address.';
+    }
+
+    // Require a 10-digit contact number for item claims.
+    elseif (!preg_match('/^\d{10}$/', $phone)) {
+        $message = 'Phone number must contain exactly 10 digits.';
     }
 
     // Check password length
@@ -76,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -88,6 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -135,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         <label for="phone">
-            Phone
+            Phone Number
         </label>
         <br>
 
@@ -143,6 +153,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type="tel"
             id="phone"
             name="phone"
+            inputmode="numeric"
+            pattern="[0-9]{10}"
+            minlength="10"
+            maxlength="10"
+            title="Enter a 10-digit phone number"
+            required
         >
 
         <br><br>
@@ -183,6 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </button>
 
     </form>
+
+    <p>Already have an account? <a href="/login.php">Login</a></p>
 
 </body>
 

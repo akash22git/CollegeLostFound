@@ -4,6 +4,7 @@ session_start();
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/auth.php';
+require_once __DIR__ . '/../app/navigation.php';
 
 requireLogin();
 
@@ -37,6 +38,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -49,6 +52,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -154,6 +159,11 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="/items.php">
             View All Lost & Found Items
         </a>
+    </p>
+
+    <p>
+        <a href="/lost-item.php">Report a Lost Item</a> |
+        <a href="/found-item.php">Report a Found Item</a>
     </p>
 
 </body>

@@ -4,6 +4,7 @@ session_start();
 
 require_once __DIR__ . '/../../app/auth.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../app/navigation.php';
 
 requireAdmin();
 
@@ -75,6 +76,8 @@ $recentReports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
 
+    <?php renderPageAssets(); ?>
+
     <meta charset="UTF-8">
 
     <meta
@@ -87,6 +90,8 @@ $recentReports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+    <?php renderNavigation(); ?>
 
     <h1>College Lost & Found</h1>
 
@@ -271,17 +276,7 @@ $recentReports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?php endif; ?>
 
-<p>
-    <a href="/dashboard.php">
-        User Dashboard
-    </a>
-</p>
-
-<p>
-    <a href="/logout.php">
-        Logout
-    </a>
-</p>
+<p><a href="/items.php">Browse All Reports</a></p>
 
 </body>
 
