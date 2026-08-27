@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             session_regenerate_id(true);
 
+
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
@@ -67,80 +68,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
-
     <?php renderPageAssets(); ?>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Login - College Lost & Found</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - College Lost &amp; Found</title>
 </head>
 
 <body>
-
     <?php renderNavigation(); ?>
 
-    <h1>College Lost & Found</h1>
+    <main class="page-container-sm">
+        <div class="custom-card">
+            <div class="page-header text-center mb-4">
+                <h1>Welcome Back</h1>
+                <p class="page-subtitle">Sign in to your College Lost &amp; Found account</p>
+            </div>
 
-    <h2>Login</h2>
+            <?php if ($message !== ''): ?>
+                <div class="alert-custom <?= str_contains($message, 'reset') ? 'alert-success' : 'alert-danger' ?>" role="alert">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span><?= htmlspecialchars($message) ?></span>
+                </div>
+            <?php endif; ?>
 
-    <?php if ($message !== ''): ?>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="e.g. yourname@college.edu"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
 
-        <p>
-            <?= htmlspecialchars($message) ?>
-        </p>
+                <div class="form-group">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label for="password" class="form-label mb-0">Password</label>
+                        <a href="/forgot-password.php" class="text-sm" style="font-size: 0.875rem;">Forgot Password?</a>
+                    </div>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
 
-    <?php endif; ?>
+                <button type="submit" class="btn btn-primary w-100 mt-3">
+                    <i class="bi bi-box-arrow-in-right"></i> Sign In
+                </button>
+            </form>
 
-    <form method="POST">
-
-        <label for="email">
-            Email
-        </label>
-        <br>
-
-        <input
-            type="email"
-            id="email"
-            name="email"
-            required
-        >
-
-        <br><br>
-
-        <label for="password">
-            Password
-        </label>
-        <br>
-
-        <input
-            type="password"
-            id="password"
-            name="password"
-            required
-        >
-
-        <br><br>
-
-        <button type="submit">
-            Login
-        </button>
-
-    </form>
-
-    <p>
-        <a href="/forgot-password.php">Forgot Password?</a>
-    </p>
-
-    <p>
-        <a href="/register.php">Create an account</a>
-    </p>
-
+            <div class="text-center mt-4 pt-3 border-top">
+                <p class="mb-0 text-muted" style="font-size: 0.95rem;">
+                    Don't have an account? <a href="/register.php" class="fw-semibold">Create an account</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <?php renderFooter(); ?>
 </body>
 
 </html>

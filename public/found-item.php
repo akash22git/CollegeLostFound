@@ -122,169 +122,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
-
     <?php renderPageAssets(); ?>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Report Found Item</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Found Item - College Lost &amp; Found</title>
 </head>
 
 <body>
-
     <?php renderNavigation(); ?>
 
-    <h1>College Lost & Found</h1>
+    <main class="page-container-sm">
+        <div class="custom-card">
+            <div class="page-header text-center mb-4">
+                <div class="feature-icon feature-icon-found mx-auto mb-2" style="width: 50px; height: 50px; font-size: 1.4rem;">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h1>Report Found Item</h1>
+                <p class="page-subtitle">Submit details about an item you found on campus</p>
+            </div>
 
-    <h2>Report Found Item</h2>
+            <?php if ($message !== ''): ?>
+                <div class="alert-custom <?= str_contains($message, 'successfully') ? 'alert-success' : 'alert-danger' ?>" role="alert">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span><?= htmlspecialchars($message) ?></span>
+                </div>
+            <?php endif; ?>
 
-    <?php if ($message !== ''): ?>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="item_name" class="form-label">Item Name *</label>
+                    <input
+                        type="text"
+                        id="item_name"
+                        name="item_name"
+                        class="form-control"
+                        placeholder="e.g. Black Leather Wallet with Student ID"
+                        required
+                    >
+                </div>
 
-        <p>
-            <?= htmlspecialchars($message) ?>
-        </p>
+                <div class="form-group">
+                    <label for="category" class="form-label">Category *</label>
+                    <select id="category" name="category" class="form-select" required>
+                        <option value="">Select Category</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="Wallet">Wallet</option>
+                        <option value="ID Card">ID Card</option>
+                        <option value="Book">Book</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
-    <?php endif; ?>
+                <div class="form-group">
+                    <label for="location" class="form-label">Found Location *</label>
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        class="form-control"
+                        placeholder="e.g. Cafeteria Table 4, Sports Complex"
+                        required
+                    >
+                </div>
 
+                <div class="form-group">
+                    <label for="item_date" class="form-label">Date Found *</label>
+                    <input
+                        type="date"
+                        id="item_date"
+                        name="item_date"
+                        class="form-control"
+                        max="<?= date('Y-m-d') ?>"
+                        required
+                    >
+                </div>
 
-    <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="description" class="form-label">Description (Optional)</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        class="form-control"
+                        placeholder="Provide details such as color, distinguishing marks, where deposited, etc."
+                        rows="4"
+                    ></textarea>
+                </div>
 
-        <label for="item_name">
-            Item Name
-        </label>
-        <br>
+                <div class="form-group">
+                    <label for="image" class="form-label">Item Image (Optional, max 5 MB)</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        class="form-control"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+                </div>
 
-        <input
-            type="text"
-            id="item_name"
-            name="item_name"
-            required
-        >
+                <button type="submit" class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-send-fill"></i> Submit Found Report
+                </button>
+            </form>
 
-        <br><br>
-
-
-        <label for="category">
-            Category
-        </label>
-        <br>
-
-        <select
-            id="category"
-            name="category"
-            required
-        >
-
-            <option value="">
-                Select Category
-            </option>
-
-            <option value="Mobile">
-                Mobile
-            </option>
-
-            <option value="Wallet">
-                Wallet
-            </option>
-
-            <option value="ID Card">
-                ID Card
-            </option>
-
-            <option value="Book">
-                Book
-            </option>
-
-            <option value="Bag">
-                Bag
-            </option>
-
-            <option value="Accessories">
-                Accessories
-            </option>
-
-            <option value="Other">
-                Other
-            </option>
-
-        </select>
-
-        <br><br>
-
-
-        <label for="description">
-            Description
-        </label>
-        <br>
-
-        <textarea
-            id="description"
-            name="description"
-            rows="5"
-            cols="40"
-        ></textarea>
-
-        <br><br>
-
-
-        <label for="location">
-            Location
-        </label>
-        <br>
-
-        <input
-            type="text"
-            id="location"
-            name="location"
-            required
-        >
-
-        <br><br>
-
-
-        <label for="item_date">
-            Date Found
-        </label>
-        <br>
-
-        <input
-            type="date"
-            id="item_date"
-            name="item_date"
-            max="<?= date('Y-m-d') ?>"
-            required
-        >
-
-        <br><br>
-
-        <label for="image">
-    Item Image
-</label>
-<br>
-
-<input
-    type="file"
-    id="image"
-    name="image"
-    accept="image/jpeg,image/png,image/webp"
->
-<br><br>
-
-
-        <button type="submit">
-            Report Found Item
-        </button>
-
-    </form>
-
-    <p><a href="/my-reports.php">View My Reports</a></p>
-
+            <div class="text-center mt-4 pt-3 border-top">
+                <a href="/my-reports.php" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-journal-text"></i> View My Reports
+                </a>
+            </div>
+        </div>
+    </main>
+    <?php renderFooter(); ?>
 </body>
 
 </html>

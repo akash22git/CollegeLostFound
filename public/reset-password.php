@@ -82,34 +82,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php renderPageAssets(); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - College Lost & Found</title>
+    <title>Reset Password - College Lost &amp; Found</title>
 </head>
 <body>
     <?php renderNavigation(); ?>
 
-    <h1>College Lost & Found</h1>
-    <h2>Reset Password</h2>
+    <main class="page-container-sm">
+        <div class="custom-card">
+            <div class="page-header text-center mb-4">
+                <div class="feature-icon feature-icon-browse mx-auto mb-2" style="width: 50px; height: 50px; font-size: 1.4rem;">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h1>Reset Password</h1>
+                <p class="page-subtitle">Choose a new, secure password for your account</p>
+            </div>
 
-    <?php if ($message !== ''): ?>
-        <p><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
+            <?php if ($message !== ''): ?>
+                <div class="alert-custom alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span><?= htmlspecialchars($message) ?></span>
+                </div>
+            <?php endif; ?>
 
-    <?php if ($validToken): ?>
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrfToken()) ?>">
-            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+            <?php if ($validToken): ?>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrfToken()) ?>">
+                    <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
-            <label for="password">New Password</label><br>
-            <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password"><br><br>
+                    <div class="form-group">
+                        <label for="password" class="form-label">New Password (min. 8 characters)</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter new password"
+                            required
+                            minlength="8"
+                            autocomplete="new-password"
+                        >
+                    </div>
 
-            <label for="confirm_password">Confirm New Password</label><br>
-            <input type="password" id="confirm_password" name="confirm_password" required minlength="8" autocomplete="new-password"><br><br>
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            class="form-control"
+                            placeholder="Confirm new password"
+                            required
+                            minlength="8"
+                            autocomplete="new-password"
+                        >
+                    </div>
 
-            <button type="submit">Reset Password</button>
-        </form>
-    <?php else: ?>
-        <p>This password-reset link is invalid or has expired.</p>
-        <p><a href="/forgot-password.php">Request a new reset link</a></p>
-    <?php endif; ?>
+                    <button type="submit" class="btn btn-primary w-100 mt-2">
+                        <i class="bi bi-check2-circle"></i> Save New Password
+                    </button>
+                </form>
+            <?php else: ?>
+                <div class="text-center py-3">
+                    <p class="text-danger fw-semibold">This password-reset link is invalid or has expired.</p>
+                    <a href="/forgot-password.php" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-repeat"></i> Request a New Reset Link
+                    </a>
+                </div>
+            <?php endif; ?>
+
+            <div class="text-center mt-4 pt-3 border-top">
+                <a href="/login.php" class="text-muted small">
+                    <i class="bi bi-arrow-left"></i> Back to Login
+                </a>
+            </div>
+        </div>
+    </main>
+    <?php renderFooter(); ?>
 </body>
 </html>

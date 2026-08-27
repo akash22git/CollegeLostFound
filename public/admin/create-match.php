@@ -3,16 +3,20 @@
 session_start();
 
 require_once __DIR__ . '/../../app/auth.php';
+require_once __DIR__ . '/../../app/csrf.php';
 require_once __DIR__ . '/../../config/database.php';
 
 requireAdmin();
-
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method not allowed.');
 }
 
+if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
+    http_response_code(400);
+    exit('Invalid security token.');
+}
 
 $lostItemId = filter_input(
     INPUT_POST,
@@ -26,16 +30,15 @@ $foundItemId = filter_input(
     FILTER_VALIDATE_INT
 );
 
-
 if (!$lostItemId || !$foundItemId) {
+    http_response_code(400);
     exit('Invalid item ID.');
 }
 
-
 if ($lostItemId === $foundItemId) {
-    exit('Lost and found item cannot be the same report.');
+    header('Location: /admin/find-matches.php?id=' . $lostItemId . '&error=same_item');
+    exit;
 }
-
 
 // Verify LOST report
 $stmt = $pdo->prepare(
@@ -50,9 +53,9 @@ $stmt = $pdo->prepare(
 $stmt->execute([$lostItemId]);
 
 if (!$stmt->fetch()) {
-    exit('Invalid lost report.');
+    header('Location: /admin/dashboard.php?error=invalid_lost_report');
+    exit;
 }
-
 
 // Verify FOUND report
 $stmt = $pdo->prepare(
@@ -67,9 +70,9 @@ $stmt = $pdo->prepare(
 $stmt->execute([$foundItemId]);
 
 if (!$stmt->fetch()) {
-    exit('Invalid found report.');
+    header('Location: /admin/find-matches.php?id=' . $lostItemId . '&error=invalid_found_report');
+    exit;
 }
-
 
 // Create the possible match
 $stmt = $pdo->prepare(
@@ -80,20 +83,14 @@ $stmt = $pdo->prepare(
 );
 
 try {
-
     $stmt->execute([
         $lostItemId,
         $foundItemId
     ]);
 
+    header('Location: /admin/find-matches.php?id=' . $lostItemId . '&msg=match_created');
+    exit;
 } catch (PDOException $e) {
-
-    exit('This match may already exist.');
+    header('Location: /admin/find-matches.php?id=' . $lostItemId . '&msg=match_exists');
+    exit;
 }
-
-
-header(
-    'Location: /admin/find-matches.php?id=' . $lostItemId
-);
-
-exit;

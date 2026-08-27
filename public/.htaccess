@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Allow clean URLs without .php extension (e.g. /dashboard -> /dashboard.php)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L,QSA]
+
+# Prevent directory browsing
+Options -Indexes

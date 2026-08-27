@@ -81,127 +81,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
-
     <?php renderPageAssets(); ?>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Register - College Lost & Found</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - College Lost &amp; Found</title>
 </head>
 
 <body>
-
     <?php renderNavigation(); ?>
 
-    <h1>College Lost & Found</h1>
+    <main class="page-container-sm">
+        <div class="custom-card">
+            <div class="page-header text-center mb-4">
+                <h1>Create Account</h1>
+                <p class="page-subtitle">Join the campus Lost &amp; Found community</p>
+            </div>
 
-    <h2>Create Account</h2>
+            <?php if ($message !== ''): ?>
+                <div class="alert-custom <?= str_contains($message, 'successful') ? 'alert-success' : 'alert-danger' ?>" role="alert">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span><?= htmlspecialchars($message) ?></span>
+                </div>
+            <?php endif; ?>
 
-    <?php if ($message !== ''): ?>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        placeholder="e.g. Ram Harsh"
+                        required
+                        autocomplete="name"
+                    >
+                </div>
 
-        <p>
-            <?= htmlspecialchars($message) ?>
-        </p>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="e.g. ram@college.edu"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
 
-    <?php endif; ?>
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number (10 digits)</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        class="form-control"
+                        inputmode="numeric"
+                        pattern="[0-9]{10}"
+                        minlength="10"
+                        maxlength="10"
+                        placeholder="e.g. 9876543210"
+                        title="Enter a 10-digit phone number"
+                        required
+                        autocomplete="tel"
+                    >
+                </div>
 
+                <div class="form-group">
+                    <label for="password" class="form-label">Password (min. 8 characters)</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Create a strong password"
+                        minlength="8"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
 
-    <form method="POST">
+                <div class="form-group">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        class="form-control"
+                        placeholder="Repeat your password"
+                        minlength="8"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
 
-        <label for="name">
-            Name
-        </label>
-        <br>
+                <button type="submit" class="btn btn-primary w-100 mt-3">
+                    <i class="bi bi-person-plus-fill"></i> Create Account
+                </button>
+            </form>
 
-        <input
-            type="text"
-            id="name"
-            name="name"
-            required
-        >
-
-        <br><br>
-
-
-        <label for="email">
-            Email
-        </label>
-        <br>
-
-        <input
-            type="email"
-            id="email"
-            name="email"
-            required
-        >
-
-        <br><br>
-
-
-        <label for="phone">
-            Phone Number
-        </label>
-        <br>
-
-        <input
-            type="tel"
-            id="phone"
-            name="phone"
-            inputmode="numeric"
-            pattern="[0-9]{10}"
-            minlength="10"
-            maxlength="10"
-            title="Enter a 10-digit phone number"
-            required
-        >
-
-        <br><br>
-
-
-        <label for="password">
-            Password
-        </label>
-        <br>
-
-        <input
-            type="password"
-            id="password"
-            name="password"
-            required
-        >
-
-        <br><br>
-
-
-        <label for="confirm_password">
-            Confirm Password
-        </label>
-        <br>
-
-        <input
-            type="password"
-            id="confirm_password"
-            name="confirm_password"
-            required
-        >
-
-        <br><br>
-
-
-        <button type="submit">
-            Create Account
-        </button>
-
-    </form>
-
-    <p>Already have an account? <a href="/login.php">Login</a></p>
-
+            <div class="text-center mt-4 pt-3 border-top">
+                <p class="mb-0 text-muted" style="font-size: 0.95rem;">
+                    Already have an account? <a href="/login.php" class="fw-semibold">Login</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <?php renderFooter(); ?>
 </body>
 
 </html>
