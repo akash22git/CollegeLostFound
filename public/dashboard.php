@@ -87,6 +87,18 @@ foreach ($myMatches as $m) {
             <p class="page-subtitle">Manage your campus Lost &amp; Found account, submissions, and match updates</p>
         </div>
 
+        <?php if (($_GET['welcome'] ?? '') === '1'): ?>
+            <div class="alert-custom alert-success mb-4 p-3 shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill fs-4 text-success"></i>
+                <div>
+                    <strong class="fs-6">Email Verified Successfully!</strong>
+                    <p class="mb-0 small text-dark">
+                        Welcome to College Lost &amp; Found, <?= htmlspecialchars($_SESSION['user_name'] ?? '') ?>! Your account is active.
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <?php if ($pendingMatchesCount > 0): ?>
             <div class="alert-custom alert-success mb-4 p-3 shadow-sm" style="background: #f0fdf4; border-color: #86efac; color: #166534;" role="alert">
                 <i class="bi bi-stars fs-4 text-success"></i>

@@ -24,10 +24,15 @@ if ($lines !== false) {
     }
 }
 
+$timezone = $env['APP_TIMEZONE'] ?? 'Asia/Kolkata';
+if ($timezone !== '') {
+    date_default_timezone_set($timezone);
+}
+
 $host = $env['DB_HOST'] ?? '127.0.0.1';
 $dbname = $env['DB_NAME'] ?? 'college_lost_found';
 $username = $env['DB_USER'] ?? 'root';
-$password = $env['DB_PASSWORD'] ?? '';
+$password = $env['DB_PASSWORD'] ?? $env['DB_PASS'] ?? '';
 
 try {
     $pdo = new PDO(

@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Alias /registration to /register.php
+RewriteRule ^registration(\.php)?$ register.php [L,QSA]
+
 # Allow clean URLs without .php extension (e.g. /dashboard -> /dashboard.php)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -8,3 +11,4 @@ RewriteRule ^(.*)$ $1.php [L,QSA]
 
 # Prevent directory browsing
 Options -Indexes
+

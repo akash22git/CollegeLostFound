@@ -137,15 +137,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="e.g. yourname@college.edu"
-                        required
-                        autocomplete="email"
-                    >
+                    <div class="email-field-wrapper">
+                        <div class="email-input-container">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="e.g. yourname@gmail.com"
+                                required
+                                autocomplete="email"
+                            >
+                            <span class="email-validation-icon" aria-hidden="true">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </span>
+                        </div>
+                        <div class="email-typo-suggestion" style="display: none;"></div>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-2">

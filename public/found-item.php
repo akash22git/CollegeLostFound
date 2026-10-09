@@ -157,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="item_name"
                         class="form-control"
                         placeholder="e.g. Black Leather Wallet with Student ID"
+                        value="<?= htmlspecialchars($_POST['item_name'] ?? '') ?>"
                         required
                     >
                 </div>
@@ -165,13 +166,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="category" class="form-label">Category *</label>
                     <select id="category" name="category" class="form-select" required>
                         <option value="">Select Category</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="Wallet">Wallet</option>
-                        <option value="ID Card">ID Card</option>
-                        <option value="Book">Book</option>
-                        <option value="Bag">Bag</option>
-                        <option value="Accessories">Accessories</option>
-                        <option value="Other">Other</option>
+                        <?php
+                        $categories = ['Mobile', 'Wallet', 'ID Card', 'Book', 'Bag', 'Accessories', 'Other'];
+                        $selectedCat = $_POST['category'] ?? '';
+                        foreach ($categories as $cat):
+                        ?>
+                            <option value="<?= htmlspecialchars($cat) ?>" <?= $selectedCat === $cat ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -183,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="location"
                         class="form-control"
                         placeholder="e.g. Cafeteria Table 4, Sports Complex"
+                        value="<?= htmlspecialchars($_POST['location'] ?? '') ?>"
                         required
                     >
                 </div>
@@ -195,6 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="item_date"
                         class="form-control"
                         max="<?= date('Y-m-d') ?>"
+                        value="<?= htmlspecialchars($_POST['item_date'] ?? date('Y-m-d')) ?>"
                         required
                     >
                 </div>
@@ -207,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         class="form-control"
                         placeholder="Provide details such as color, distinguishing marks, where deposited, etc."
                         rows="4"
-                    ></textarea>
+                    ><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
                 </div>
 
                 <div class="form-group">

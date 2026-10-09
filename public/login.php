@@ -94,31 +94,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST">
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="e.g. yourname@college.edu"
-                        required
-                        autocomplete="email"
-                    >
+                    <div class="email-field-wrapper">
+                        <div class="email-input-container">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="e.g. yourname@gmail.com"
+                                required
+                                autocomplete="email"
+                            >
+                            <span class="email-validation-icon" aria-hidden="true">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </span>
+                        </div>
+                        <div class="email-typo-suggestion" style="display: none;"></div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <label for="password" class="form-label mb-0">Password</label>
-                        <a href="/forgot-password.php" class="text-sm" style="font-size: 0.875rem;">Forgot Password?</a>
+                        <a href="/forgot-password" class="text-sm" style="font-size: 0.875rem;">Forgot Password?</a>
                     </div>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Enter your password"
-                        required
-                        autocomplete="current-password"
-                    >
+                    <div class="password-field-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle-btn"
+                            data-target="password"
+                            aria-label="Show password"
+                            tabindex="-1"
+                        >
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">
@@ -128,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="text-center mt-4 pt-3 border-top">
                 <p class="mb-0 text-muted" style="font-size: 0.95rem;">
-                    Don't have an account? <a href="/register.php" class="fw-semibold">Create an account</a>
+                    Don't have an account? <a href="/register" class="fw-semibold">Create an account</a>
                 </p>
             </div>
         </div>

@@ -230,6 +230,51 @@ textarea.form-control {
     resize: vertical;
 }
 
+/* Hide default browser password reveal icon in Edge/Windows */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Password Toggle Input Wrapper */
+.password-field-wrapper {
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+.password-field-wrapper .form-control {
+    padding-right: 45px !important;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent !important;
+    border: none !important;
+    color: #64748b !important;
+    padding: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    z-index: 10;
+    transition: color 0.15s ease-in-out;
+}
+
+.password-toggle-btn:hover,
+.password-toggle-btn:focus {
+    color: var(--primary) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 /* Buttons */
 .btn {
     display: inline-flex;
@@ -797,10 +842,116 @@ main {
     .btn {
         width: 100%;
     }
+}
 
-    .filter-card {
-        padding: 1rem;
+/* ==========================================================================
+   Email Validation & Typo Suggestion Component
+   ========================================================================== */
+.email-field-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.email-input-container .form-control {
+    padding-right: 2.75rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.email-validation-icon {
+    position: absolute;
+    right: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.15rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.email-validation-icon.is-valid {
+    color: var(--success);
+    opacity: 1;
+    animation: scaleInCheck 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.email-validation-icon.is-invalid {
+    color: var(--danger);
+    opacity: 1;
+}
+
+.email-validation-icon.is-warning {
+    color: var(--warning);
+    opacity: 1;
+}
+
+.email-typo-suggestion {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
+    padding: 0.45rem 0.75rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    color: #92400e;
+    animation: fadeInDown 0.25s ease-out;
+}
+
+.email-typo-suggestion i {
+    color: #d97706;
+}
+
+.btn-typo-fix {
+    display: inline-flex;
+    align-items: center;
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+    color: #78350f;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.btn-typo-fix:hover {
+    background: #fde68a;
+    color: #451a03;
+    transform: translateY(-1px);
+}
+
+@keyframes scaleInCheck {
+    0% {
+        transform: translateY(-50%) scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
     }
 }
 
-
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

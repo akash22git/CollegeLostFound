@@ -154,6 +154,7 @@ $stmt->execute([
                         name="item_name"
                         class="form-control"
                         placeholder="e.g. Blue Dell Laptop Charger"
+                        value="<?= htmlspecialchars($_POST['item_name'] ?? '') ?>"
                         required
                     >
                 </div>
@@ -162,13 +163,13 @@ $stmt->execute([
                     <label for="category" class="form-label">Category *</label>
                     <select id="category" name="category" class="form-select" required>
                         <option value="">Select Category</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="Wallet">Wallet</option>
-                        <option value="ID Card">ID Card</option>
-                        <option value="Book">Book</option>
-                        <option value="Bag">Bag</option>
-                        <option value="Accessories">Accessories</option>
-                        <option value="Other">Other</option>
+                        <?php
+                        $categories = ['Mobile', 'Wallet', 'ID Card', 'Book', 'Bag', 'Accessories', 'Other'];
+                        $selectedCat = $_POST['category'] ?? '';
+                        foreach ($categories as $cat):
+                        ?>
+                            <option value="<?= htmlspecialchars($cat) ?>" <?= $selectedCat === $cat ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -180,6 +181,7 @@ $stmt->execute([
                         name="location"
                         class="form-control"
                         placeholder="e.g. Central Library 2nd Floor, Science Block"
+                        value="<?= htmlspecialchars($_POST['location'] ?? '') ?>"
                         required
                     >
                 </div>
@@ -192,6 +194,7 @@ $stmt->execute([
                         name="item_date"
                         class="form-control"
                         max="<?= date('Y-m-d') ?>"
+                        value="<?= htmlspecialchars($_POST['item_date'] ?? date('Y-m-d')) ?>"
                         required
                     >
                 </div>
@@ -204,7 +207,7 @@ $stmt->execute([
                         class="form-control"
                         placeholder="Provide identifying features, brand, color, stickers, etc."
                         rows="4"
-                    ></textarea>
+                    ><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
                 </div>
 
                 <div class="form-group">

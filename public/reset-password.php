@@ -111,30 +111,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="form-group">
                         <label for="password" class="form-label">New Password (min. 8 characters)</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-control"
-                            placeholder="Enter new password"
-                            required
-                            minlength="8"
-                            autocomplete="new-password"
-                        >
+                        <div class="password-field-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter new password"
+                                required
+                                minlength="8"
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle-btn"
+                                data-target="password"
+                                aria-label="Show password"
+                                tabindex="-1"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirm_password" class="form-label">Confirm New Password</label>
-                        <input
-                            type="password"
-                            id="confirm_password"
-                            name="confirm_password"
-                            class="form-control"
-                            placeholder="Confirm new password"
-                            required
-                            minlength="8"
-                            autocomplete="new-password"
-                        >
+                        <div class="password-field-wrapper">
+                            <input
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                class="form-control"
+                                placeholder="Confirm new password"
+                                required
+                                minlength="8"
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle-btn"
+                                data-target="confirm_password"
+                                aria-label="Show password"
+                                tabindex="-1"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 mt-2">

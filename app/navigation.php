@@ -15,7 +15,7 @@ function renderPageAssets(): void
         crossorigin="anonymous"
     >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.3">
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -39,7 +39,7 @@ function renderNavigation(): void
     <header class="site-header sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary-gradient shadow-sm" aria-label="Main navigation">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/index.php">
+                <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/">
                     <span class="brand-icon"><i class="bi bi-box-seam-fill"></i></span>
                     <span>College Lost &amp; Found</span>
                 </a>
@@ -58,50 +58,50 @@ function renderNavigation(): void
                 <div class="collapse navbar-collapse" id="mainNavigation">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                         <li class="nav-item">
-                            <a class="nav-link <?= $currentPage === 'index.php' ? 'active' : '' ?>" href="/index.php">
+                            <a class="nav-link <?= in_array($currentPage, ['index.php', ''], true) ? 'active' : '' ?>" href="/">
                                 <i class="bi bi-house-door me-1"></i>Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $currentPage === 'items.php' ? 'active' : '' ?>" href="/items.php">
+                            <a class="nav-link <?= $currentPage === 'items.php' ? 'active' : '' ?>" href="/items">
                                 <i class="bi bi-search me-1"></i>Browse Reports
                             </a>
                         </li>
 
                         <?php if ($isLoggedIn): ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $currentPage === 'lost-item.php' ? 'active' : '' ?>" href="/lost-item.php">
+                                <a class="nav-link <?= $currentPage === 'lost-item.php' ? 'active' : '' ?>" href="/lost-item">
                                     <i class="bi bi-exclamation-diamond me-1"></i>Report Lost
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?= $currentPage === 'found-item.php' ? 'active' : '' ?>" href="/found-item.php">
+                                <a class="nav-link <?= $currentPage === 'found-item.php' ? 'active' : '' ?>" href="/found-item">
                                     <i class="bi bi-check-circle me-1"></i>Report Found
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?= $currentPage === 'my-reports.php' ? 'active' : '' ?>" href="/my-reports.php">
+                                <a class="nav-link <?= $currentPage === 'my-reports.php' ? 'active' : '' ?>" href="/my-reports">
                                     <i class="bi bi-journal-text me-1"></i>My Reports
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?= in_array($currentPage, ['dashboard.php', 'find-matches.php'], true) ? 'active' : '' ?>" href="<?= $isAdmin ? '/admin/dashboard.php' : '/dashboard.php' ?>">
+                                <a class="nav-link <?= in_array($currentPage, ['dashboard.php', 'find-matches.php'], true) ? 'active' : '' ?>" href="<?= $isAdmin ? '/admin/dashboard' : '/dashboard' ?>">
                                     <i class="bi bi-person-badge me-1"></i><?= $isAdmin ? 'Admin Dashboard' : 'Dashboard' ?>
                                 </a>
                             </li>
                             <li class="nav-item ms-lg-2">
-                                <a class="btn btn-outline-light btn-sm px-3 rounded-pill fw-medium" href="/logout.php">
+                                <a class="btn btn-outline-light btn-sm px-3 rounded-pill fw-medium" href="/logout">
                                     <i class="bi bi-box-arrow-right me-1"></i>Logout
                                 </a>
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $currentPage === 'login.php' ? 'active' : '' ?>" href="/login.php">
+                                <a class="nav-link <?= $currentPage === 'login.php' ? 'active' : '' ?>" href="/login">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>Login
                                 </a>
                             </li>
                             <li class="nav-item ms-lg-2">
-                                <a class="btn btn-light text-primary btn-sm px-3 rounded-pill fw-semibold shadow-sm" href="/register.php">
+                                <a class="btn btn-light text-primary btn-sm px-3 rounded-pill fw-semibold shadow-sm" href="/register">
                                     <i class="bi bi-person-plus me-1"></i>Register
                                 </a>
                             </li>
@@ -140,20 +140,20 @@ function renderFooter(): void
                 <div class="col-lg-2 col-md-6 ms-lg-auto">
                     <h6 class="fw-bold text-white mb-3 text-uppercase tracking-wider" style="font-size: 0.85rem; letter-spacing: 0.05em;">Quick Links</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2" style="font-size: 0.95rem;">
-                        <li><a href="/index.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Home</a></li>
-                        <li><a href="/items.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Browse Items</a></li>
-                        <li><a href="/lost-item.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Report Lost</a></li>
-                        <li><a href="/found-item.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Report Found</a></li>
+                        <li><a href="/" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Home</a></li>
+                        <li><a href="/items" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Browse Items</a></li>
+                        <li><a href="/lost-item" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Report Lost</a></li>
+                        <li><a href="/found-item" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Report Found</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <h6 class="fw-bold text-white mb-3 text-uppercase tracking-wider" style="font-size: 0.85rem; letter-spacing: 0.05em;">Account &amp; Access</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2" style="font-size: 0.95rem;">
-                        <li><a href="/login.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Login</a></li>
-                        <li><a href="/register.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Register Account</a></li>
-                        <li><a href="/forgot-password.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Forgot Password</a></li>
-                        <li><a href="/dashboard.php" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> User Dashboard</a></li>
+                        <li><a href="/login" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Login</a></li>
+                        <li><a href="/register" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Register Account</a></li>
+                        <li><a href="/forgot-password" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> Forgot Password</a></li>
+                        <li><a href="/dashboard" class="text-decoration-none text-light-muted footer-link"><i class="bi bi-chevron-right small me-1"></i> User Dashboard</a></li>
                     </ul>
                 </div>
 
@@ -163,7 +163,7 @@ function renderFooter(): void
                         <i class="bi bi-building me-2 text-primary"></i> Main Administration Desk
                     </p>
                     <p class="text-light-muted mb-2" style="font-size: 0.9rem; color: #94a3b8;">
-                        <i class="bi bi-envelope me-2 text-primary"></i> support@college.edu
+                        <i class="bi bi-envelope me-2 text-primary"></i> support@college.com
                     </p>
                     <p class="text-light-muted mb-0" style="font-size: 0.9rem; color: #94a3b8;">
                         <i class="bi bi-clock me-2 text-primary"></i> Mon - Fri: 8:00 AM - 5:00 PM
